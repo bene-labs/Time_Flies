@@ -13,7 +13,7 @@ namespace Food
         }
 
         public Type type;
-        public float size;
+       // public float size;
 
         public float energyValue;
         //public float eatSizeValue;
@@ -23,10 +23,11 @@ namespace Food
 
         private void Start()
         {
+            /*
             _spriteRenderer = GetComponent<SpriteRenderer>();
             var sprite = _spriteRenderer.sprite;
             var localScale = transform.localScale;
-            size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
+            size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;*/
         }
 
         public void Initialize(FoodSpawner parentSpawner)

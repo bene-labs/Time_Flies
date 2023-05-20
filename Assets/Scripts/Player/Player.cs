@@ -37,15 +37,15 @@ namespace Player
         private Food.Food.Type _currentPlayerType;
             
         private void CalcSize()
-        { 
-            var sprite = _spriteRenderer.sprite;
-            var localScale = transform.localScale;
+        {
+            //var sprite = _spriteRenderer.sprite;
+            //var localScale = transform.localScale;
             _consumedAttributes = new Dictionary<Food.Food.Type, int>();
-            size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
+            //size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
         }
         
         // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _camera = Camera.main;
@@ -82,14 +82,14 @@ namespace Player
         {
             if (_isInvincible)
                 return;
-
+            _collectedEnergy -= damage;
             StartCoroutine(DamageAnimation(damage));
         }
 
         IEnumerator DamageAnimation(float damage)
         {
             _isInvincible = true;
-            _collectedEnergy -= damage;
+            
             if (_collectedEnergy < 0)
                 _collectedEnergy = 0;
             UpdateEnergyBar();
@@ -108,12 +108,12 @@ namespace Player
 
         private void OnDeath()
         {
-            deathScreen.SetActive(true);
+            //deathScreen.SetActive(true);
         }
 
         private void ResetPlayer()
         {
-            _currentPlayerType = EvalMostConsumedFood();
+            //_currentPlayerType = EvalMostConsumedFood();
             _collectedEnergy = 0;
 
             StartCoroutine(RespawnPlayer());
@@ -144,24 +144,20 @@ namespace Player
 
         private bool TryEat(Food.Food food)
         {
-            if (true || food.size < size)
+            //transform.localScale += new Vector3(food.eatSizeValue,food.eatSizeValue, 0);
+            CalcSize();
+            if (_consumedAttributes.ContainsKey(food.type)) 
             {
-                //transform.localScale += new Vector3(food.eatSizeValue,food.eatSizeValue, 0);
-                CalcSize();
-                if (_consumedAttributes.ContainsKey(food.type)) 
-                {
-                    _consumedAttributes[food.type]++;
-                }
-                else
-                {
-                    _consumedAttributes[food.type] = 1;
-                }
-                _collectedEnergy += food.energyValue;
-                UpdateEnergyBar();
-                food.OnEaten();
-                return true;
+                _consumedAttributes[food.type]++;
             }
-            return false;
+            else
+            {
+                _consumedAttributes[food.type] = 1;
+            }
+            _collectedEnergy += food.energyValue;
+            UpdateEnergyBar();
+            food.OnEaten();
+            return true;
         }
 
         private void UpdateEnergyBar()
@@ -176,11 +172,11 @@ namespace Player
         {
             _canGetInput = false;
             _isInvincible = true;
-            _spriteRenderer.sprite = playerEggSprite;
+            //_spriteRenderer.sprite = playerEggSprite;
             
             yield return new WaitForSeconds(5);
 
-            _spriteRenderer.sprite = playerTypeSprites[_currentPlayerType];
+            //_spriteRenderer.sprite = playerTypeSprites[_currentPlayerType];
             _canGetInput = true;
             _isInvincible = false;
         }
