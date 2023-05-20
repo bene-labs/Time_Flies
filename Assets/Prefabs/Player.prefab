@@ -137,8 +137,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94aadebc53514a44aa3e696d000d3679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageFlashTime: 0
+  invincibilityTime: 0
   requiredEnergy: 100
-  moveSpeed: 2
+  moveSpeed: 2.1
   size: 0
   energyText: {fileID: 0}
 --- !u!1 &7469072891156985317
