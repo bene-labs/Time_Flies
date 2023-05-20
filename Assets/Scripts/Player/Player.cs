@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 namespace Player
@@ -8,11 +9,13 @@ namespace Player
     public class Player : MonoBehaviour
     {
         public float requiredEnergy = 100f;
-        private float _collectedEnergy = 0f; 
+        private float _collectedEnergy = 0f;
         public float moveSpeed;
         public float size;
         [SerializeField] private Dictionary<Food.Food.Type, int> _consumedAttributes;
-
+        private bool isInvicible = false;
+        
+        public TextMeshProUGUI energyText;
         private SpriteRenderer _spriteRenderer;
         private Camera _camera;
 
@@ -29,6 +32,7 @@ namespace Player
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _camera = Camera.main;
+            UpdateEnergyBar();
             CalcSize();
         }
 
@@ -48,6 +52,19 @@ namespace Player
             {
                 TryEat(food);
             }
+            else if (collision.gameObject.TryGetComponent(out Enemy.Enemy enemy))
+            {
+                TakeDamage(enemy.energyDrain);
+            }
+        }
+
+        private void TakeDamage(float damage)
+        {
+            if (isInvicible)
+                return;
+            _collectedEnergy -= damage;
+            UpdateEnergyBar();
+            // Add Inviciblity Frames and Red flash animation here
         }
         
         private bool TryEat(Food.Food food)
@@ -65,10 +82,16 @@ namespace Player
                     _consumedAttributes[food.type] = 1;
                 }
                 _collectedEnergy += food.energyValue;
+                UpdateEnergyBar();
                 food.OnEaten();
                 return true;
             }
             return false;
+        }
+
+        private void UpdateEnergyBar()
+        {
+            energyText.text = _collectedEnergy + " / " + requiredEnergy;
         }
     }
 }
