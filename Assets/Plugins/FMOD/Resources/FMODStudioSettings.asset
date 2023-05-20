@@ -348,10 +348,10 @@ MonoBehaviour:
   m_Name: FMODStudioSettings
   m_EditorClassIdentifier: 
   switchSettingsMigration: 1
-  HasSourceProject: 1
+  HasSourceProject: 0
   HasPlatforms: 1
   sourceProjectPath: ../../FMOD/time flies/time flies.fspro
-  sourceBankPath: ../../FMOD/time flies/Build
+  sourceBankPath: Assets/Sound/Banks
   sourceBankPathUnformatted: 
   BankRefreshCooldown: 5
   ShowBankRefreshWindow: 1
