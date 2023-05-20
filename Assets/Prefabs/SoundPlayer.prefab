@@ -1,0 +1,130 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2110568224152390292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4083141238985663104}
+  - component: {fileID: -9046328331822267769}
+  - component: {fileID: 2095499200195697269}
+  m_Layer: 0
+  m_Name: SoundPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4083141238985663104
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110568224152390292}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-9046328331822267769
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110568224152390292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b9468c5f457ace64f8d4df6d642b107f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LoadEvent: 0
+  UnloadEvent: 0
+  Banks:
+  - Foley
+  - Music
+  - SFX
+  CollisionTag: 
+  PreloadSamples: 0
+--- !u!114 &2095499200195697269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2110568224152390292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fa72a655321f71047ae821e0e71e9e3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  music:
+    Guid:
+      Data1: -374190216
+      Data2: 1299157124
+      Data3: -1545092970
+      Data4: 1636860446
+    Path: event:/Musik Lv1
+  eat:
+    Guid:
+      Data1: 1330646264
+      Data2: 1290934207
+      Data3: -390614907
+      Data4: -901294824
+    Path: event:/Foley/Eat
+  fly:
+    Guid:
+      Data1: 739402187
+      Data2: 1164135906
+      Data3: 1717782441
+      Data4: 551749869
+    Path: event:/Foley/Fly
+  birth:
+    Guid:
+      Data1: 1604899640
+      Data2: 1076172853
+      Data3: 222352556
+      Data4: -1373074591
+    Path: event:/Foley/Birth
+  lay_egg:
+    Guid:
+      Data1: -1733885129
+      Data2: 1186605255
+      Data3: -754220356
+      Data4: -1709591059
+    Path: event:/Foley/Lay Egg
+  death:
+    Guid:
+      Data1: 1825048288
+      Data2: 1329414447
+      Data3: -397550676
+      Data4: 250650254
+    Path: event:/Foley/Death
+  item_spawn:
+    Guid:
+      Data1: 658617844
+      Data2: 1228519926
+      Data3: -1767731539
+      Data4: -1480338330
+    Path: event:/Foley/Item Spawn
+  SFX_Failed:
+    Guid:
+      Data1: 88961790
+      Data2: 1242201531
+      Data3: -241112159
+      Data4: 1873577498
+    Path: event:/SFX/Mission Failed SFX
+  SFX_Success:
+    Guid:
+      Data1: -380670591
+      Data2: 1231773481
+      Data3: -523612269
+      Data4: 1606850273
+    Path: event:/SFX/Success SFX
