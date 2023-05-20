@@ -27,7 +27,7 @@ public class EnemySpawner : MonoBehaviour
         newEnemy.GetComponent<Enemy.Enemy>().target = player;
     }
 
-    void DestroyAll()
+    public void DestroyAll()
     {
         foreach (var enemy in GetComponentsInChildren<Enemy.Enemy>())
         {
