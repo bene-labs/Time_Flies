@@ -29,16 +29,20 @@ namespace Food
         public void OnFoodEaten()
         {
             float spawnDelay = Random.Range(minRespawnDelay, maxRespawnDelay);
+            Debug.Log($"New food spawned by '{gameObject.name}' in {spawnDelay} seconds");
             StartCoroutine(SpawnFoodAfterDelay(spawnDelay));
         }
 
         private void SpawnFoodObject()
         {
+            // spawn random food from pool
             int foodIndex = Random.Range(0, foodObjectPool.Length);
             GameObject foodObject = Instantiate(foodObjectPool[foodIndex]);
-            foodObject.transform.position = GetRandomLocInsideBounds();
             
-            Debug.Log("food index: " + foodIndex);
+            foodObject.transform.position = GetRandomLocInsideBounds();
+            foodObject.GetComponent<Food>().Initialize(this);
+            
+            Debug.Log($"Spawned food '{foodObject.name}' at spawner '{gameObject.name}'");
         }
 
         private Vector2 GetRandomLocInsideBounds()

@@ -10,15 +10,16 @@ namespace Food
             Blue,
             Green
         }
-        
+
         public Type type;
         public float size;
 
         public float energyValue;
         //public float eatSizeValue;
-        
+
         private SpriteRenderer _spriteRenderer;
-        
+        private FoodSpawner _parentSpawner;
+
         private void Start()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -42,8 +43,15 @@ namespace Food
             }
         }
 
+        public void Initialize(FoodSpawner parentSpawner)
+        {
+            _parentSpawner = parentSpawner;
+        }
+
         public void OnEaten()
         {
+            if (_parentSpawner) _parentSpawner.OnFoodEaten();
+
             Destroy(gameObject);
         }
     }

@@ -91,7 +91,10 @@ namespace Player
 
         private void UpdateEnergyBar()
         {
-            energyText.text = _collectedEnergy + " / " + requiredEnergy;
+            if (energyText)
+            {
+                energyText.text = _collectedEnergy + " / " + requiredEnergy;
+            }
         }
     }
 }
