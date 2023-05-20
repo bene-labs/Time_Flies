@@ -242,6 +242,7 @@ MonoBehaviour:
   requiredEnergy: 100
   moveSpeed: 2
   size: 0
+  energyText: {fileID: 0}
 --- !u!50 &872052230
 Rigidbody2D:
   serializedVersion: 4
@@ -399,6 +400,14 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6315950381430589431, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: maxRespawnDelay
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315950381430589431, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: minRespawnDelay
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315950381430589431, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
       propertyPath: foodObjectPool.Array.size
       value: 3
       objectReference: {fileID: 0}
@@ -416,7 +425,7 @@ PrefabInstance:
       objectReference: {fileID: 2714367181746466266, guid: 646caad61514c324dbae3c6a0fa8f216, type: 3}
     - target: {fileID: 8836001956644615861, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
       propertyPath: m_Name
-      value: FoodSpawner
+      value: FoodSpawner_Test
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}

@@ -12,18 +12,30 @@ namespace Player
         [SerializeField] private float damageFlashTime;
         [SerializeField] private float invincibilityTime;
         
+        [Header("General")]
         public float requiredEnergy = 100f;
-
-        private float _collectedEnergy = 0f;
         public float moveSpeed;
         public float size;
+
+        [Header("Player Visuals")] 
+        public Dictionary<Food.Food.Type, Sprite> playerTypeSprites;
+        public  Sprite playerEggSprite;
+        
+        [Header("UI")]
+        public TextMeshProUGUI energyText;
+        public GameObject deathScreen;
+
+        private float _collectedEnergy = 0f;
+        
         [SerializeField] private Dictionary<Food.Food.Type, int> _consumedAttributes;
         private bool _isInvincible = false;
+        private bool _canGetInput = true;
         
-        public TextMeshProUGUI energyText;
         private SpriteRenderer _spriteRenderer;
         private Camera _camera;
 
+        private Food.Food.Type _currentPlayerType;
+            
         private void CalcSize()
         { 
             var sprite = _spriteRenderer.sprite;
@@ -37,6 +49,9 @@ namespace Player
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _camera = Camera.main;
+            
+            ResetPlayer();
+            
             UpdateEnergyBar();
             CalcSize();
         }
@@ -44,7 +59,7 @@ namespace Player
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetMouseButton(0))
+            if (_canGetInput && Input.GetMouseButton(0))
             {
                 var mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
                 transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed * Time.deltaTime);
@@ -85,8 +100,48 @@ namespace Player
 
             yield return new WaitForSeconds(invincibilityTime);
             _isInvincible = false;
+            // Add Inviciblity Frames and Red flash animation here
+
+            if (_collectedEnergy <= 0)
+                OnDeath();
         }
-        
+
+        private void OnDeath()
+        {
+            deathScreen.SetActive(true);
+        }
+
+        private void ResetPlayer()
+        {
+            _currentPlayerType = EvalMostConsumedFood();
+            _collectedEnergy = 0;
+
+            StartCoroutine(RespawnPlayer());
+        }
+
+        private Food.Food.Type EvalMostConsumedFood()
+        {
+            int mostFoodCount = 0;
+            Food.Food.Type mostFoodType = Food.Food.Type.Mixed;
+
+            foreach (var consumedFood in _consumedAttributes)
+            {
+                if (consumedFood.Value > mostFoodCount)
+                {
+                    mostFoodCount = consumedFood.Value;
+                    mostFoodType = consumedFood.Key;
+                }
+
+                if (consumedFood.Value == mostFoodCount)
+                {
+                    mostFoodCount = consumedFood.Value;
+                    mostFoodType = Food.Food.Type.Mixed;
+                }
+            }
+
+            return mostFoodType;
+        }
+
         private bool TryEat(Food.Food food)
         {
             if (true || food.size < size)
@@ -115,6 +170,19 @@ namespace Player
             {
                 energyText.text = _collectedEnergy + " / " + requiredEnergy;
             }
+        }
+
+        IEnumerator RespawnPlayer()
+        {
+            _canGetInput = false;
+            _isInvincible = true;
+            _spriteRenderer.sprite = playerEggSprite;
+            
+            yield return new WaitForSeconds(5);
+
+            _spriteRenderer.sprite = playerTypeSprites[_currentPlayerType];
+            _canGetInput = true;
+            _isInvincible = false;
         }
     }
 }

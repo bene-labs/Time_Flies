@@ -6,9 +6,10 @@ namespace Food
     {
         public enum Type
         {
-            Red,
-            Blue,
-            Green
+            Mixed,
+            Greasy,
+            Sweet,
+            Spoiled
         }
 
         public Type type;
@@ -26,21 +27,6 @@ namespace Food
             var sprite = _spriteRenderer.sprite;
             var localScale = transform.localScale;
             size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
-
-            switch (type)
-            {
-                case Type.Red:
-                    _spriteRenderer.color = Color.red;
-                    break;
-                case Type.Green:
-                    _spriteRenderer.color = Color.green;
-                    break;
-                case Type.Blue:
-                    _spriteRenderer.color = Color.blue;
-                    break;
-                default:
-                    break;
-            }
         }
 
         public void Initialize(FoodSpawner parentSpawner)
