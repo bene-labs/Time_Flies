@@ -7,6 +7,8 @@ namespace Player
 {
     public class Player : MonoBehaviour
     {
+        public float requiredEnergy = 100f;
+        private float _collectedEnergy = 0f; 
         public float moveSpeed;
         public float size;
         [SerializeField] private Dictionary<Food.Food.Type, int> _consumedAttributes;
@@ -62,6 +64,7 @@ namespace Player
                 {
                     _consumedAttributes[food.type] = 1;
                 }
+                _collectedEnergy += food.energyValue;
                 food.OnEaten();
                 return true;
             }

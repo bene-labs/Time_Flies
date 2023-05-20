@@ -13,6 +13,8 @@ namespace Food
         
         public Type type;
         public float size;
+
+        public float energyValue;
         //public float eatSizeValue;
         
         private SpriteRenderer _spriteRenderer;
