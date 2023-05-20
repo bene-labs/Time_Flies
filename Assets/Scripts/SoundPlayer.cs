@@ -41,6 +41,7 @@ public class SoundPlayer : MonoBehaviour
     void Start()
     {
         RuntimeManager.PlayOneShot(Atmo);
+        RuntimeManager.PlayOneShot(music1); //remove when different models are implemented
     }
 
     public void StopMusic()
