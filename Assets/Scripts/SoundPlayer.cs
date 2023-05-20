@@ -71,7 +71,7 @@ public class SoundPlayer : MonoBehaviour
     public void StartFlySound()
     {
         flySoundInstance.stop(STOP_MODE.IMMEDIATE);
-        //flySoundInstance = RuntimeManager.CreateInstance()
+        flySoundInstance = RuntimeManager.CreateInstance(fly);
         flySoundInstance.start();
     }
 
