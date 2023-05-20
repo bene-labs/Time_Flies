@@ -9,6 +9,7 @@ namespace Player
     public class Player : MonoBehaviour
     {
         public float requiredEnergy = 100f;
+
         private float _collectedEnergy = 0f;
         public float moveSpeed;
         public float size;
@@ -63,6 +64,8 @@ namespace Player
             if (_isInvincible)
                 return;
             _collectedEnergy -= damage;
+            if (_collectedEnergy < 0)
+                _collectedEnergy = 0;
             UpdateEnergyBar();
             // Add Inviciblity Frames and Red flash animation here
         }

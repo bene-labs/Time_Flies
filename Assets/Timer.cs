@@ -15,6 +15,6 @@ public class Timer : MonoBehaviour
        timeLeft -= Time.deltaTime; 
        timeText.text = TimeSpan.FromSeconds(timeLeft).Minutes + ":" + 
                                                    TimeSpan.FromSeconds(timeLeft).Seconds + ":" + 
-                                                   TimeSpan.FromMinutes(timeLeft).Milliseconds / 10;
+                                                   (TimeSpan.FromMinutes(timeLeft).Milliseconds / 10).ToString("00");
    }
 }
