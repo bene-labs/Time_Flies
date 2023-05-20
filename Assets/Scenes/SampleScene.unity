@@ -582,6 +582,10 @@ PrefabInstance:
       propertyPath: moveSpeed
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 8309513551452641225, guid: dc1baced3fe360944b46c780fb6a13f9, type: 3}
+      propertyPath: energyDrain
+      value: 0.25
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dc1baced3fe360944b46c780fb6a13f9, type: 3}
 --- !u!1001 &4608455976905905523

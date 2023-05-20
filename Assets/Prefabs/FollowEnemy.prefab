@@ -138,4 +138,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   moveSpeed: 20
-  energyDrain: 0
+  energyDrain: 0.25

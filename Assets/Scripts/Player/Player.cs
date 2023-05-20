@@ -13,7 +13,7 @@ namespace Player
         public float moveSpeed;
         public float size;
         [SerializeField] private Dictionary<Food.Food.Type, int> _consumedAttributes;
-        private bool isInvicible = false;
+        private bool _isInvincible = false;
         
         public TextMeshProUGUI energyText;
         private SpriteRenderer _spriteRenderer;
@@ -60,7 +60,7 @@ namespace Player
 
         private void TakeDamage(float damage)
         {
-            if (isInvicible)
+            if (_isInvincible)
                 return;
             _collectedEnergy -= damage;
             UpdateEnergyBar();
