@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 
@@ -8,6 +9,9 @@ namespace Player
 {
     public class Player : MonoBehaviour
     {
+        [SerializeField] private float damageFlashTime;
+        [SerializeField] private float invincibilityTime;
+        
         public float requiredEnergy = 100f;
         private float _collectedEnergy = 0f;
         public float moveSpeed;
@@ -62,9 +66,22 @@ namespace Player
         {
             if (_isInvincible)
                 return;
+
+            StartCoroutine(DamageAnimation(damage));
+        }
+
+        IEnumerator DamageAnimation(float damage)
+        {
+            _isInvincible = true;
             _collectedEnergy -= damage;
             UpdateEnergyBar();
-            // Add Inviciblity Frames and Red flash animation here
+            var defaultColor = _spriteRenderer.color;
+
+            DOVirtual.Color(Color.red, defaultColor, damageFlashTime, value => _spriteRenderer.color = value)
+                .SetEase(Ease.OutCirc);
+
+            yield return new WaitForSeconds(invincibilityTime);
+            _isInvincible = false;
         }
         
         private bool TryEat(Food.Food food)
