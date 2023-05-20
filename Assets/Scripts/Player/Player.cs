@@ -13,6 +13,7 @@ namespace Player
         [SerializeField] private float invincibilityTime;
         
         public float requiredEnergy = 100f;
+
         private float _collectedEnergy = 0f;
         public float moveSpeed;
         public float size;
@@ -74,6 +75,8 @@ namespace Player
         {
             _isInvincible = true;
             _collectedEnergy -= damage;
+            if (_collectedEnergy < 0)
+                _collectedEnergy = 0;
             UpdateEnergyBar();
             var defaultColor = _spriteRenderer.color;
 
