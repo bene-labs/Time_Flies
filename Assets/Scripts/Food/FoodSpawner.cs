@@ -45,13 +45,11 @@ namespace Food
 
         private Vector2 GetRandomLocInsideBounds()
         {
-            Bounds spawnerBounds = _boxCollider.bounds;
+            Vector2 boxSize = _boxCollider.size / 2;
 
-            Vector2 randOffset = new Vector2(
-                Random.Range(spawnerBounds.min.x, spawnerBounds.max.x),
-                Random.Range(spawnerBounds.min.y, spawnerBounds.max.y));
+            Vector2 randOffset = new Vector2(Random.Range(-boxSize.x, boxSize.x), Random.Range(-boxSize.y, boxSize.y));
 
-            return (Vector2)gameObject.transform.position;// + _boxCollider.offset + randOffset;
+            return (Vector2)gameObject.transform.localPosition + _boxCollider.offset + randOffset;
         }
 
         IEnumerator SpawnFoodAfterDelay(float spawnDelay)
