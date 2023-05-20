@@ -239,10 +239,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94aadebc53514a44aa3e696d000d3679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageFlashTime: 0
+  invincibilityTime: 0
   requiredEnergy: 100
   moveSpeed: 2
   size: 0
+  playerEggSprite: {fileID: 0}
   energyText: {fileID: 0}
+  deathScreen: {fileID: 0}
 --- !u!50 &872052230
 Rigidbody2D:
   serializedVersion: 4
@@ -361,11 +365,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 3.06
       objectReference: {fileID: 0}
     - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1.61
       objectReference: {fileID: 0}
     - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
       propertyPath: m_LocalPosition.z
