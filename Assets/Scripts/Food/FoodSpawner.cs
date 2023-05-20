@@ -37,9 +37,7 @@ namespace Food
         {
             // spawn random food from pool
             int foodIndex = Random.Range(0, foodObjectPool.Length);
-            GameObject foodObject = Instantiate(foodObjectPool[foodIndex]);
-            
-            foodObject.transform.position = GetRandomLocInsideBounds();
+            GameObject foodObject = Instantiate(foodObjectPool[foodIndex],GetRandomLocInsideBounds(),Quaternion.identity);
             foodObject.GetComponent<Food>().Initialize(this);
             
             Debug.Log($"Spawned food '{foodObject.name}' at spawner '{gameObject.name}'");
@@ -53,7 +51,7 @@ namespace Food
                 Random.Range(spawnerBounds.min.x, spawnerBounds.max.x),
                 Random.Range(spawnerBounds.min.y, spawnerBounds.max.y));
 
-            return (Vector2)gameObject.transform.position + _boxCollider.offset + randOffset;
+            return (Vector2)gameObject.transform.position;// + _boxCollider.offset + randOffset;
         }
 
         IEnumerator SpawnFoodAfterDelay(float spawnDelay)
