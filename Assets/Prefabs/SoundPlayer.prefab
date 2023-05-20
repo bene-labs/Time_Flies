@@ -142,3 +142,10 @@ MonoBehaviour:
       Data3: -523612269
       Data4: 1606850273
     Path: event:/SFX/Success SFX
+  Atmo:
+    Guid:
+      Data1: -1475894536
+      Data2: 1090670556
+      Data3: 1956359337
+      Data4: -1991636170
+    Path: event:/Atmo/Atmo
