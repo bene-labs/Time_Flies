@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,23 +7,65 @@ namespace Player
 {
     public class Player : MonoBehaviour
     {
+        public float moveSpeed;
         public float size;
+        [SerializeField] private Dictionary<Enemy.Enemy.Type, int> _consumedAttributes;
+
         private SpriteRenderer _spriteRenderer;
-        
+        private Camera _camera;
+
+        private void CalcSize()
+        { 
+            var sprite = _spriteRenderer.sprite;
+            var localScale = transform.localScale;
+            _consumedAttributes = new Dictionary<Enemy.Enemy.Type, int>();
+            size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
+        }
         
         // Start is called before the first frame update
         void Start()
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            var sprite = _spriteRenderer.sprite;
-            var localScale = transform.localScale;
-            size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
+            _camera = Camera.main;
+            CalcSize();
         }
 
         // Update is called once per frame
         void Update()
         {
-            
+            if (Input.GetMouseButton(0))
+            {
+                var mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+                transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed * Time.deltaTime);
+            }
+        }
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+            if (collision.gameObject.TryGetComponent(out Enemy.Enemy enemy))
+            {
+                TryEat(enemy);
+            }
+        }
+        
+        private bool TryEat(Enemy.Enemy enemy)
+        {
+            if (enemy.size < size)
+            {
+                transform.localScale += new Vector3(enemy.eatSizeValue,enemy.eatSizeValue, 0);
+                CalcSize();
+                if (_consumedAttributes.ContainsKey(enemy.type)) 
+                {
+                    _consumedAttributes[enemy.type]++;
+                }
+                else
+                {
+                    _consumedAttributes[enemy.type] = 1;
+                }
+                enemy.OnEaten();
+                return true;
+            }
+            return false;
         }
     }
 }

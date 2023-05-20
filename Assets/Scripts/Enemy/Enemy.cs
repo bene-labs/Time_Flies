@@ -17,7 +17,7 @@ namespace Enemy
         
         public Type type;
         public float size;
-        public float eatValue;
+        public float eatSizeValue;
         
         private SpriteRenderer _spriteRenderer;
         
@@ -43,6 +43,10 @@ namespace Enemy
                     break;
             }
         }
-        
+
+        public void OnEaten()
+        {
+            Destroy(gameObject);
+        }
     }
 }
