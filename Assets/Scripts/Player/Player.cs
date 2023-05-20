@@ -9,7 +9,7 @@ namespace Player
     {
         public float moveSpeed;
         public float size;
-        [SerializeField] private Dictionary<Enemy.Enemy.Type, int> _consumedAttributes;
+        [SerializeField] private Dictionary<Food.Food.Type, int> _consumedAttributes;
 
         private SpriteRenderer _spriteRenderer;
         private Camera _camera;
@@ -18,7 +18,7 @@ namespace Player
         { 
             var sprite = _spriteRenderer.sprite;
             var localScale = transform.localScale;
-            _consumedAttributes = new Dictionary<Enemy.Enemy.Type, int>();
+            _consumedAttributes = new Dictionary<Food.Food.Type, int>();
             size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
         }
         
@@ -42,27 +42,27 @@ namespace Player
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.gameObject.TryGetComponent(out Enemy.Enemy enemy))
+            if (collision.gameObject.TryGetComponent(out Food.Food food))
             {
-                TryEat(enemy);
+                TryEat(food);
             }
         }
         
-        private bool TryEat(Enemy.Enemy enemy)
+        private bool TryEat(Food.Food food)
         {
-            if (enemy.size < size)
+            if (true || food.size < size)
             {
-                transform.localScale += new Vector3(enemy.eatSizeValue,enemy.eatSizeValue, 0);
+                //transform.localScale += new Vector3(food.eatSizeValue,food.eatSizeValue, 0);
                 CalcSize();
-                if (_consumedAttributes.ContainsKey(enemy.type)) 
+                if (_consumedAttributes.ContainsKey(food.type)) 
                 {
-                    _consumedAttributes[enemy.type]++;
+                    _consumedAttributes[food.type]++;
                 }
                 else
                 {
-                    _consumedAttributes[enemy.type] = 1;
+                    _consumedAttributes[food.type] = 1;
                 }
-                enemy.OnEaten();
+                food.OnEaten();
                 return true;
             }
             return false;
