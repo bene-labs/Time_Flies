@@ -20,6 +20,7 @@ public class SoundPlayer : MonoBehaviour
     [SerializeField] private EventReference item_spawn;
     [SerializeField] private EventReference SFX_Failed;
     [SerializeField] private EventReference SFX_Success;
+    [SerializeField] private EventReference Atmo;
 
     public static SoundPlayer Instance;
     private EventInstance musicInstance;
@@ -39,7 +40,7 @@ public class SoundPlayer : MonoBehaviour
 
     void Start()
     {
-        //RuntimeManager.PlayOneShot();
+        RuntimeManager.PlayOneShot(Atmo);
     }
 
     public void StopMusic()
