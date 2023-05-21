@@ -30,16 +30,17 @@ namespace Food
         {
             float spawnDelay = Random.Range(minRespawnDelay, maxRespawnDelay);
             Debug.Log($"New food spawned by '{gameObject.name}' in {spawnDelay} seconds");
-            StartCoroutine(SpawnFoodAfterDelay(spawnDelay));
+            Invoke(nameof(SpawnFoodObject), spawnDelay);
         }
 
         private void SpawnFoodObject()
         {
             // spawn random food from pool
             int foodIndex = Random.Range(0, foodObjectPool.Length);
-            GameObject foodObject = Instantiate(foodObjectPool[foodIndex],GetRandomLocInsideBounds(),Quaternion.identity);
+            GameObject foodObject =
+                Instantiate(foodObjectPool[foodIndex], GetRandomLocInsideBounds(), Quaternion.identity);
             foodObject.GetComponent<Food>().Initialize(this);
-            
+
             Debug.Log($"Spawned food '{foodObject.name}' at spawner '{gameObject.name}'");
         }
 
@@ -49,14 +50,7 @@ namespace Food
 
             Vector2 randOffset = new Vector2(Random.Range(-boxSize.x, boxSize.x), Random.Range(-boxSize.y, boxSize.y));
 
-            return (Vector2)gameObject.transform.localPosition + _boxCollider.offset + randOffset;
-        }
-
-        IEnumerator SpawnFoodAfterDelay(float spawnDelay)
-        {
-            yield return new WaitForSeconds(spawnDelay);
-
-            SpawnFoodObject();
+            return (Vector2) gameObject.transform.localPosition + _boxCollider.offset + randOffset;
         }
     }
 }
