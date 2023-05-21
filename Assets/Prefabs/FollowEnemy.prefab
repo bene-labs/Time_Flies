@@ -26,8 +26,8 @@ Transform:
   m_GameObject: {fileID: 281820679677867828}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0.088, y: -0.103, z: 0}
-  m_LocalScale: {x: 0.08512662, y: 0.08512662, z: 0.08512662}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.4, y: 1.4, z: 1.4}
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 108122749921864063}
   m_RootOrder: 0
@@ -135,7 +135,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 0.7
 --- !u!50 &3671056985918150574
 Rigidbody2D:
   serializedVersion: 4
@@ -173,9 +173,9 @@ MonoBehaviour:
   spriteObject: {fileID: 281820679677867828}
   spriteRotationOffset: 180
   rotationSpeed: 20
-  maxSpeed: 0.4
-  minSpeed: 2
-  energyDrain: 5
+  minSpeed: 5
+  maxSpeed: 7
+  energyDrain: 15
 --- !u!58 &9176199502811108688
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -191,4 +191,4 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.55
+  m_Radius: 0.75

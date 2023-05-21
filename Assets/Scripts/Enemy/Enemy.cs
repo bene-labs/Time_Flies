@@ -9,8 +9,8 @@ namespace Enemy
         public float spriteRotationOffset = 180;
         public float rotationSpeed = 20;
         private float moveSpeed;
-        public float maxSpeed;
-        public float minSpeed;
+        public float minSpeed = 7;
+        public float maxSpeed = 9;
         public float energyDrain;
 
 
@@ -21,14 +21,13 @@ namespace Enemy
 
         private void Update()
         {
-            Vector3 oldPosition = transform.position;
-            Vector3 newPosition = Vector3.Lerp(oldPosition, target.transform.position, moveSpeed * Time.deltaTime);
+            Vector3 movementDir = target.transform.position - transform.position;
+            movementDir.z = 0;
 
-            transform.position = newPosition;
+            transform.position += movementDir.normalized * (moveSpeed * Time.deltaTime);
 
             // rotate enemy to face the movement direction
-            Vector3 movementDirection = newPosition - oldPosition;
-            float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
+            float angle = Mathf.Atan2(movementDir.y, movementDir.x) * Mathf.Rad2Deg;
             Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle + spriteRotationOffset));
             spriteObject.transform.rotation = Quaternion.Slerp(spriteObject.transform.rotation, rotation, rotationSpeed * Time.deltaTime);
         }
