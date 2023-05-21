@@ -29,18 +29,24 @@ namespace Player
         // Exposed Fields -----------------------------------------------------
         [Header("General")] public float requiredEnergy = 100f;
         public float energyOnSpawn = 10f;
-        public float moveSpeed = 2;
+        public float moveSpeed = 8;
+        public float mouseDistForMaxSpeed = 5;
         public float rotationSpeed = 20;
         public float size;
 
-        [Header("Death Animation")] public float invincibilityTime;
-        public float damageFlashTime;
+        [Header("Animation Timings")] public float eggHatchTime = 3;
+        public float invincibilityTime = 0.1f;
+        public float damageFlashTime = 0.1f;
 
         [Header("Player Visuals")] public GameObject spriteObject;
         public SpriteRenderer spriteRenderer;
         public float spriteRotationOffset = -90;
-        public Sprite playerEggSprite;
+        public Sprite[] playerEggSprites;
         public PlayerTypeSprites[] playerTypeSprites;
+
+        // Events -----------------------------------------------------
+        public Action OnPlayerRespawnStarted;
+        public Action OnPlayerRespawnFinished;
 
         // Member Fields -----------------------------------------------------
         private float _collectedEnergy = 0f;
@@ -76,7 +82,7 @@ namespace Player
         private void Start()
         {
             _isFirstRound = true;
-            ResetPlayer();
+            Respawn();
         }
 
         // Update is called once per frame
@@ -85,17 +91,20 @@ namespace Player
             if (_canGetInput && Input.GetMouseButton(0))
             {
                 // move player
-                Vector3 mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-                Vector3 oldPlayerPosition = transform.position;
-                Vector3 newPlayerPosition = Vector3.Lerp(oldPlayerPosition, mousePosition, moveSpeed * Time.deltaTime);
+                Vector3 movementDir = _camera.ScreenToWorldPoint(Input.mousePosition) - transform.position;
+                movementDir.z = 0;
 
-                transform.position = newPlayerPosition;
+                // calculate a multiplier for the speed based on the distance the mouse has to the player.
+                // if its closer than the threshold the player's speed is reduced.
+                float mouseDistMultiplier = Math.Clamp(movementDir.magnitude / mouseDistForMaxSpeed, 0, 1);
+
+                transform.position += movementDir.normalized * (mouseDistMultiplier * (moveSpeed * Time.deltaTime));
 
                 // rotate player to face the movement direction
-                Vector3 movementDirection = newPlayerPosition - oldPlayerPosition;
-                float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
+                float angle = Mathf.Atan2(movementDir.y, movementDir.x) * Mathf.Rad2Deg;
                 Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle + spriteRotationOffset));
-                spriteObject.transform.rotation = Quaternion.Slerp(spriteObject.transform.rotation, rotation, rotationSpeed * Time.deltaTime);
+                spriteObject.transform.rotation = Quaternion.Slerp(spriteObject.transform.rotation, rotation,
+                    rotationSpeed * Time.deltaTime);
             }
         }
 
@@ -148,25 +157,30 @@ namespace Player
         public void OnRoundEnded()
         {
             _isFirstRound = false;
-            ResetPlayer();
+            Respawn();
         }
 
-        private void ResetPlayer()
+        private void Respawn()
         {
+            OnPlayerRespawnStarted?.Invoke();
+
             if (!_isFirstRound)
             {
                 _currentPlayerType = EvalPlayerTypeBasedOnConsumedFood();
-                StartCoroutine(RespawnPlayer());
+                StartCoroutine(RespawnCoroutine());
             }
-            else
-            {
-                GetComponent<Timer>().RestartTimer();
-            }
+            else OnRespawnFinished();
 
             _collectedEnergy = energyOnSpawn;
             _consumedAttributes = new Dictionary<Food.Food.Type, int>();
 
             UpdateEnergyBar();
+        }
+
+        private void OnRespawnFinished()
+        {
+            GetComponent<Timer>().RestartTimer();
+            OnPlayerRespawnFinished?.Invoke();
         }
 
         private PlayerType EvalPlayerTypeBasedOnConsumedFood()
@@ -229,13 +243,18 @@ namespace Player
             UIManager.SetEnergyBar(_collectedEnergy, requiredEnergy);
         }
 
-        IEnumerator RespawnPlayer()
+        IEnumerator RespawnCoroutine()
         {
             _canGetInput = false;
             _isInvincible = true;
-            spriteRenderer.sprite = playerEggSprite;
 
-            yield return new WaitForSeconds(3);
+            float eggStateDisplayTime = eggHatchTime / playerEggSprites.Length;
+
+            foreach (Sprite eggSprite in playerEggSprites)
+            {
+                spriteRenderer.sprite = eggSprite;
+                yield return new WaitForSeconds(eggStateDisplayTime);
+            }
 
             // find correct sprite for the new player type and display it
             foreach (PlayerTypeSprites playerTypeSprite in playerTypeSprites)
@@ -246,10 +265,10 @@ namespace Player
                 }
             }
 
-            GetComponent<Timer>().RestartTimer();
-
             _canGetInput = true;
             _isInvincible = false;
+
+            OnRespawnFinished();
         }
     }
 }

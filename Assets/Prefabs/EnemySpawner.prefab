@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c308836ba108e26459d0c5507ba1da84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemySpawnCount: 3
   minPos: {x: 0, y: 0}
   maxPos: {x: 0, y: 0}
   minDelay: 5
