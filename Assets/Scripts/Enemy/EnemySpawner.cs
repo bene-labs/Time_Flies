@@ -6,13 +6,11 @@ namespace Enemy
 {
     public class EnemySpawner : MonoBehaviour
     {
-        public int enemySpawnCount = 1;
-
         public Vector2 minPos = new Vector2(-500f, -500f);
         public Vector2 maxPos = new Vector2(500f, 500f);
 
-        public float minDelay = 5;
-        public float maxDelay = 10;
+        public float minDelay = 10;
+        public float maxDelay = 15;
 
         public GameObject enemyPrefab;
         public Player.Player player;
@@ -20,7 +18,12 @@ namespace Enemy
         private void Awake()
         {
             player.OnPlayerRespawnStarted += DestroyAllEnemies;
-            player.OnPlayerRespawnFinished += SpawnAllEnemies;
+            //player.OnPlayerRespawnFinished += SpawnEnemy;
+        }
+
+        private void Start()
+        {
+            SpawnEnemy();
         }
 
         private void SpawnEnemy()
@@ -29,14 +32,8 @@ namespace Enemy
             var newEnemy = Instantiate(enemyPrefab, this.transform);
             newEnemy.transform.position = spawnPos;
             newEnemy.GetComponent<Enemy>().target = player.gameObject;
-        }
-
-        public void SpawnAllEnemies()
-        {
-            for (int i = 0; i < enemySpawnCount; i++)
-            {
-                Invoke(nameof(SpawnEnemy), Random.Range(minDelay, maxDelay));
-            }
+            
+            Invoke(nameof(SpawnEnemy), Random.Range(minDelay, maxDelay));
         }
 
         public void DestroyAllEnemies()

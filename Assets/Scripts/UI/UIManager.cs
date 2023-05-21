@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.Serialization;
 
 public class UIManager : MonoBehaviour
 {
@@ -17,8 +16,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         // singleton pattern for easy ui component access
-        if (instance) Destroy(instance);
-        instance = this;
+        if (instance == null) instance = this;
     }
 
     public static void SetTimerText(string text)

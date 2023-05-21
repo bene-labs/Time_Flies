@@ -28,6 +28,7 @@ namespace Player
     {
         // Exposed Fields -----------------------------------------------------
         [Header("General")] public float requiredEnergy = 100f;
+        public float nextRoundEnergyMult = 1.5f;
         public float energyOnSpawn = 10f;
         public float moveSpeed = 8;
         public float mouseDistForMaxSpeed = 5;
@@ -100,6 +101,7 @@ namespace Player
 
                 transform.position += movementDir.normalized * (mouseDistMultiplier * (moveSpeed * Time.deltaTime));
 
+
                 // rotate player to face the movement direction
                 float angle = Mathf.Atan2(movementDir.y, movementDir.x) * Mathf.Rad2Deg;
                 Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle + spriteRotationOffset));
@@ -157,7 +159,16 @@ namespace Player
         public void OnRoundEnded()
         {
             _isFirstRound = false;
-            Respawn();
+
+            if (_collectedEnergy >= requiredEnergy)
+            {
+                requiredEnergy *= nextRoundEnergyMult;
+                Respawn();
+            }
+            else
+            {
+                OnDeath();
+            }
         }
 
         private void Respawn()
