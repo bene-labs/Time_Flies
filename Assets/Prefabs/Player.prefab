@@ -134,7 +134,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   requiredEnergy: 100
-  energyOnSpawn: 10
+  nextRoundEnergyMult: 1.5
+  energyOnSpawn: 11
   moveSpeed: 8
   mouseDistForMaxSpeed: 5
   rotationSpeed: 20
