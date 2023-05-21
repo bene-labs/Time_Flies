@@ -40,9 +40,12 @@ public class SoundPlayer : MonoBehaviour
 
     void Start()
     {
+        PlayMusic1();
+        StartFlySound();
+        /*
         RuntimeManager.PlayOneShot(Atmo);
         RuntimeManager.PlayOneShot(music1); //remove when different models are implemented
-        RuntimeManager.PlayOneShot(fly); //remove when different models are implemented
+        RuntimeManager.PlayOneShot(fly); //remove when different models are implemented*/
     }
 
     public void StopMusic()
@@ -78,6 +81,13 @@ public class SoundPlayer : MonoBehaviour
         flySoundInstance.start();
     }
 
+    public void PlayEatSound()
+    {
+        flySoundInstance.stop(STOP_MODE.IMMEDIATE);
+        flySoundInstance = RuntimeManager.CreateInstance(fly);
+        flySoundInstance.start();
+    }
+    
     public void StopFlySound()
     {
         flySoundInstance.stop(STOP_MODE.ALLOWFADEOUT);

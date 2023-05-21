@@ -17,8 +17,7 @@ public class UIManager : MonoBehaviour
     private void Awake()
     {
         // singleton pattern for easy ui component access
-        if (instance) Destroy(instance);
-        instance = this;
+        if (instance == null) instance = this;
     }
 
     public static void SetTimerText(string text)

@@ -25,13 +25,14 @@ public class EnemySpawner : MonoBehaviour
         var newEnemy = Instantiate(enemyPrefab, this.transform);
         newEnemy.transform.position = spawnPos;
         newEnemy.GetComponent<Enemy.Enemy>().target = player;
+        Invoke("SpawnEnemy", Random.Range(minDelay, maxDelay));
     }
 
     public void DestroyAll()
     {
         foreach (var enemy in GetComponentsInChildren<Enemy.Enemy>())
         {
-            Destroy(enemy);
+            Destroy(enemy.gameObject);
         }
     }
 }

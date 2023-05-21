@@ -23,7 +23,7 @@ namespace Enemy
         {
             Vector3 oldPosition = transform.position;
             Vector3 newPosition = Vector3.Lerp(oldPosition, target.transform.position, moveSpeed * Time.deltaTime);
-
+            newPosition.z = 0f;
             transform.position = newPosition;
 
             // rotate enemy to face the movement direction

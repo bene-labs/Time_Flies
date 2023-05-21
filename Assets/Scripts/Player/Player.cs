@@ -42,6 +42,8 @@ namespace Player
         public Sprite playerEggSprite;
         public PlayerTypeSprites[] playerTypeSprites;
 
+
+        [Header("References")] public EnemySpawner enemySpawner;
         // Member Fields -----------------------------------------------------
         private float _collectedEnergy = 0f;
 
@@ -88,7 +90,7 @@ namespace Player
                 Vector3 mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
                 Vector3 oldPlayerPosition = transform.position;
                 Vector3 newPlayerPosition = Vector3.Lerp(oldPlayerPosition, mousePosition, moveSpeed * Time.deltaTime);
-
+                newPlayerPosition.z = 0f;
                 transform.position = newPlayerPosition;
 
                 // rotate player to face the movement direction
@@ -148,6 +150,8 @@ namespace Player
         public void OnRoundEnded()
         {
             _isFirstRound = false;
+            enemySpawner.DestroyAll();
+            requiredEnergy *= 1.5f;
             ResetPlayer();
         }
 

@@ -173,8 +173,8 @@ MonoBehaviour:
   spriteObject: {fileID: 281820679677867828}
   spriteRotationOffset: 180
   rotationSpeed: 20
-  maxSpeed: 0.4
-  minSpeed: 2
+  maxSpeed: 2.5
+  minSpeed: 0.5
   energyDrain: 5
 --- !u!58 &9176199502811108688
 CircleCollider2D:

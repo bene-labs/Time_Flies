@@ -13,7 +13,7 @@ public class Timer : MonoBehaviour
     private float _timeLeft;
     private bool _updateTimer;
 
-    private void Awake()
+    private void Start()
     {
         UIManager.SetTimerText("00:00:00");
         StopTimer();
