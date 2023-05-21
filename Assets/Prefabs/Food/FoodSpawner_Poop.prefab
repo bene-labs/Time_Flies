@@ -1,0 +1,91 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &8426303124428223022
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 322569936835704849, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_Size.x
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 322569936835704849, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_Size.y
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.86
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -12.66
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3726164862636288409, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315950381430589431, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: maxRespawnDelay
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315950381430589431, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: minRespawnDelay
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315950381430589431, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: foodObjectPool.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 6315950381430589431, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: foodObjectPool.Array.data[0]
+      value: 
+      objectReference: {fileID: 2714367181746466266, guid: a2339753dcfedef4b97ef04842cdadba, type: 3}
+    - target: {fileID: 6315950381430589431, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: foodObjectPool.Array.data[1]
+      value: 
+      objectReference: {fileID: 2714367181746466266, guid: a2339753dcfedef4b97ef04842cdadba, type: 3}
+    - target: {fileID: 6315950381430589431, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: foodObjectPool.Array.data[2]
+      value: 
+      objectReference: {fileID: 2714367181746466266, guid: ec24c21c333330741b72f33fd2d41929, type: 3}
+    - target: {fileID: 8836001956644615861, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
+      propertyPath: m_Name
+      value: FoodSpawner_Poop
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 18884a44c5e5f674ea999b60ed195341, type: 3}
