@@ -2,58 +2,80 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
-using TMPro;
+using Unity.Collections;
 using UnityEngine;
 
 namespace Player
 {
+    [Serializable]
+    public struct PlayerTypeSprites
+    {
+        public PlayerType type;
+        public Sprite sprite;
+    }
+
+    public enum PlayerType
+    {
+        Default,
+        Mixed,
+        Greasy,
+        Sweet,
+        Spoiled
+    }
+
+    [RequireComponent(typeof(Timer))]
     public class Player : MonoBehaviour
     {
-        [SerializeField] private float damageFlashTime;
-        [SerializeField] private float invincibilityTime;
-        
-        [Header("General")]
-        public float requiredEnergy = 100f;
-        public float moveSpeed;
+        // Exposed Fields -----------------------------------------------------
+        [Header("General")] public float requiredEnergy = 100f;
+        public float moveSpeed = 2;
+        public float rotationSpeed = 20;
         public float size;
 
-        [Header("Player Visuals")] 
-        public Dictionary<Food.Food.Type, Sprite> playerTypeSprites;
-        public  Sprite playerEggSprite;
-        
-        [Header("UI")]
-        public TextMeshProUGUI energyText;
-        public GameObject deathScreen;
+        [Header("Death Animation")] public float invincibilityTime;
+        public float damageFlashTime;
 
+        [Header("Player Visuals")] public GameObject spriteObject;
+        public SpriteRenderer spriteRenderer;
+        public float spriteRotationOffset = -90;
+        public Sprite playerEggSprite;
+        public PlayerTypeSprites[] playerTypeSprites;
+
+        // Member Fields -----------------------------------------------------
         private float _collectedEnergy = 0f;
-        
-        [SerializeField] private Dictionary<Food.Food.Type, int> _consumedAttributes;
+
+        [SerializeField]
+        private Dictionary<Food.Food.Type, int> _consumedAttributes = new Dictionary<Food.Food.Type, int>();
+
         private bool _isInvincible = false;
         private bool _canGetInput = true;
-        
-        private SpriteRenderer _spriteRenderer;
+
         private Camera _camera;
 
-        private Food.Food.Type _currentPlayerType;
-            
+        private PlayerType _currentPlayerType;
+
+        private bool _isFirstRound = true;
+
+        // Methods -----------------------------------------------------
         private void CalcSize()
         {
-            //var sprite = _spriteRenderer.sprite;
+            //var sprite = spriteRenderer.sprite;
             //var localScale = transform.localScale;
-            _consumedAttributes = new Dictionary<Food.Food.Type, int>();
             //size = sprite.bounds.size.x * localScale.x * sprite.bounds.size.y * localScale.y;
         }
-        
+
         // Start is called before the first frame update
         void Awake()
         {
-            _spriteRenderer = GetComponent<SpriteRenderer>();
             _camera = Camera.main;
-            
-            ResetPlayer();
-            
-            UpdateEnergyBar();
+
             CalcSize();
+        }
+
+        private void Start()
+        {
+            _isFirstRound = true;
+            ResetPlayer();
         }
 
         // Update is called once per frame
@@ -61,8 +83,19 @@ namespace Player
         {
             if (_canGetInput && Input.GetMouseButton(0))
             {
-                var mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
-                transform.position = Vector2.Lerp(transform.position, mousePosition, moveSpeed * Time.deltaTime);
+                // move player
+                Vector3 mousePosition = _camera.ScreenToWorldPoint(Input.mousePosition);
+                Vector3 oldPlayerPosition = transform.position;
+                Vector3 newPlayerPosition = Vector3.Lerp(oldPlayerPosition, mousePosition, moveSpeed * Time.deltaTime);
+
+                transform.position = newPlayerPosition;
+
+                // rotate player to face the movement direction
+                Vector3 movementDirection = newPlayerPosition - oldPlayerPosition;
+                float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
+                Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle + spriteRotationOffset));
+                spriteObject.transform.rotation = Quaternion.Slerp(spriteObject.transform.rotation, rotation,
+                    rotationSpeed * Time.deltaTime);
             }
         }
 
@@ -82,6 +115,7 @@ namespace Player
         {
             if (_isInvincible)
                 return;
+
             _collectedEnergy -= damage;
             StartCoroutine(DamageAnimation(damage));
         }
@@ -89,13 +123,13 @@ namespace Player
         IEnumerator DamageAnimation(float damage)
         {
             _isInvincible = true;
-            
+
             if (_collectedEnergy < 0)
                 _collectedEnergy = 0;
             UpdateEnergyBar();
-            var defaultColor = _spriteRenderer.color;
+            var defaultColor = spriteRenderer.color;
 
-            DOVirtual.Color(Color.red, defaultColor, damageFlashTime, value => _spriteRenderer.color = value)
+            DOVirtual.Color(Color.red, defaultColor, damageFlashTime, value => spriteRenderer.color = value)
                 .SetEase(Ease.OutCirc);
 
             yield return new WaitForSeconds(invincibilityTime);
@@ -108,45 +142,72 @@ namespace Player
 
         private void OnDeath()
         {
-            //deathScreen.SetActive(true);
+            UIManager.SetDeathScreenVisibility(true);
+        }
+
+        public void OnRoundEnded()
+        {
+            _isFirstRound = false;
+            ResetPlayer();
         }
 
         private void ResetPlayer()
         {
-            //_currentPlayerType = EvalMostConsumedFood();
-            _collectedEnergy = 0;
+            if (!_isFirstRound)
+            {
+                _currentPlayerType = EvalPlayerTypeBasedOnConsumedFood();
+                StartCoroutine(RespawnPlayer());
+            }
+            else
+            {
+                GetComponent<Timer>().RestartTimer();
+            }
 
-            StartCoroutine(RespawnPlayer());
+            _collectedEnergy = 0;
+            _consumedAttributes = new Dictionary<Food.Food.Type, int>();
+
+            UpdateEnergyBar();
         }
 
-        private Food.Food.Type EvalMostConsumedFood()
+        private PlayerType EvalPlayerTypeBasedOnConsumedFood()
         {
+            // if no food has been eaten we will display the default fly sprite
             int mostFoodCount = 0;
-            Food.Food.Type mostFoodType = Food.Food.Type.Mixed;
+            PlayerType playerType = PlayerType.Default;
 
+            // check all eaten food and display the sprite for the most eaten type
+            // if two or more food types have been eaten the same "most" amount of times we display the "mixed fly" sprite 
             foreach (var consumedFood in _consumedAttributes)
             {
-                if (consumedFood.Value > mostFoodCount)
+                if (consumedFood.Value >= mostFoodCount)
                 {
-                    mostFoodCount = consumedFood.Value;
-                    mostFoodType = consumedFood.Key;
-                }
+                    playerType = consumedFood.Value == mostFoodCount
+                        ? PlayerType.Mixed
+                        : FoodToPlayerType(consumedFood.Key);
 
-                if (consumedFood.Value == mostFoodCount)
-                {
                     mostFoodCount = consumedFood.Value;
-                    mostFoodType = Food.Food.Type.Mixed;
                 }
             }
 
-            return mostFoodType;
+            return playerType;
+        }
+
+        private PlayerType FoodToPlayerType(Food.Food.Type foodType)
+        {
+            switch (foodType)
+            {
+                case Food.Food.Type.Greasy: return PlayerType.Greasy;
+                case Food.Food.Type.Sweet: return PlayerType.Sweet;
+                case Food.Food.Type.Spoiled: return PlayerType.Spoiled;
+                default: return PlayerType.Default;
+            }
         }
 
         private bool TryEat(Food.Food food)
         {
             //transform.localScale += new Vector3(food.eatSizeValue,food.eatSizeValue, 0);
             CalcSize();
-            if (_consumedAttributes.ContainsKey(food.type)) 
+            if (_consumedAttributes.ContainsKey(food.type))
             {
                 _consumedAttributes[food.type]++;
             }
@@ -154,6 +215,9 @@ namespace Player
             {
                 _consumedAttributes[food.type] = 1;
             }
+
+            Debug.Log($"Food consumed - Type: {food.type}, Amount {_consumedAttributes[food.type]}");
+
             _collectedEnergy += food.energyValue;
             UpdateEnergyBar();
             food.OnEaten();
@@ -162,21 +226,28 @@ namespace Player
 
         private void UpdateEnergyBar()
         {
-            if (energyText)
-            {
-                energyText.text = _collectedEnergy + " / " + requiredEnergy;
-            }
+            UIManager.SetEnergyBar(_collectedEnergy, requiredEnergy);
         }
 
         IEnumerator RespawnPlayer()
         {
             _canGetInput = false;
             _isInvincible = true;
-            //_spriteRenderer.sprite = playerEggSprite;
-            
-            yield return new WaitForSeconds(5);
+            spriteRenderer.sprite = playerEggSprite;
 
-            //_spriteRenderer.sprite = playerTypeSprites[_currentPlayerType];
+            yield return new WaitForSeconds(3);
+
+            // find correct sprite for the new player type and display it
+            foreach (PlayerTypeSprites playerTypeSprite in playerTypeSprites)
+            {
+                if (playerTypeSprite.type == _currentPlayerType)
+                {
+                    spriteRenderer.sprite = playerTypeSprite.sprite;
+                }
+            }
+
+            GetComponent<Timer>().RestartTimer();
+
             _canGetInput = true;
             _isInvincible = false;
         }
