@@ -29,7 +29,7 @@ public class UIManager : MonoBehaviour
     public static void SetEnergyBar(float currentValue, float maxValue)
     {
         instance.energyBarText.text = currentValue + " / " + maxValue;
-        instance.energyBarValueTransform.localScale = new Vector3(currentValue / maxValue, 1, 1);
+        instance.energyBarValueTransform.localScale = new Vector3(Math.Clamp(currentValue / maxValue, 0, 1), 1, 1);
     }
 
     public static void SetDeathScreenVisibility(bool isVisible)
