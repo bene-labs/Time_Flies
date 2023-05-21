@@ -28,6 +28,7 @@ namespace Player
     {
         // Exposed Fields -----------------------------------------------------
         [Header("General")] public float requiredEnergy = 100f;
+        public float energyOnSpawn = 10f;
         public float moveSpeed = 2;
         public float rotationSpeed = 20;
         public float size;
@@ -94,8 +95,7 @@ namespace Player
                 Vector3 movementDirection = newPlayerPosition - oldPlayerPosition;
                 float angle = Mathf.Atan2(movementDirection.y, movementDirection.x) * Mathf.Rad2Deg;
                 Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, angle + spriteRotationOffset));
-                spriteObject.transform.rotation = Quaternion.Slerp(spriteObject.transform.rotation, rotation,
-                    rotationSpeed * Time.deltaTime);
+                spriteObject.transform.rotation = Quaternion.Slerp(spriteObject.transform.rotation, rotation, rotationSpeed * Time.deltaTime);
             }
         }
 
@@ -163,7 +163,7 @@ namespace Player
                 GetComponent<Timer>().RestartTimer();
             }
 
-            _collectedEnergy = 0;
+            _collectedEnergy = energyOnSpawn;
             _consumedAttributes = new Dictionary<Food.Food.Type, int>();
 
             UpdateEnergyBar();
