@@ -976,17 +976,37 @@ PrefabInstance:
       propertyPath: player
       value: 
       objectReference: {fileID: 1029514990}
+    - target: {fileID: 221018554708291544, guid: 98e167188e08c094ea12ea7b8b42a7dd, type: 3}
+      propertyPath: maxPos.x
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 221018554708291544, guid: 98e167188e08c094ea12ea7b8b42a7dd, type: 3}
+      propertyPath: maxPos.y
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 221018554708291544, guid: 98e167188e08c094ea12ea7b8b42a7dd, type: 3}
+      propertyPath: minDelay
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 221018554708291544, guid: 98e167188e08c094ea12ea7b8b42a7dd, type: 3}
+      propertyPath: minPos.x
+      value: -20
+      objectReference: {fileID: 0}
+    - target: {fileID: 221018554708291544, guid: 98e167188e08c094ea12ea7b8b42a7dd, type: 3}
+      propertyPath: minPos.y
+      value: -20
+      objectReference: {fileID: 0}
     - target: {fileID: 221018554708291545, guid: 98e167188e08c094ea12ea7b8b42a7dd, type: 3}
       propertyPath: m_RootOrder
       value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 221018554708291545, guid: 98e167188e08c094ea12ea7b8b42a7dd, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -17.41
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 221018554708291545, guid: 98e167188e08c094ea12ea7b8b42a7dd, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 10.42
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 221018554708291545, guid: 98e167188e08c094ea12ea7b8b42a7dd, type: 3}
       propertyPath: m_LocalPosition.z
