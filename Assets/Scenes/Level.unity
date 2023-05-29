@@ -986,7 +986,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 221018554708291544, guid: 98e167188e08c094ea12ea7b8b42a7dd, type: 3}
       propertyPath: minDelay
-      value: 7
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 221018554708291544, guid: 98e167188e08c094ea12ea7b8b42a7dd, type: 3}
       propertyPath: minPos.x

@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -15,15 +16,17 @@ namespace Enemy
         public GameObject enemyPrefab;
         public Player.Player player;
 
+        private bool stopSpawning = false;
+
         private void Awake()
         {
             player.OnPlayerRespawnStarted += DestroyAllEnemies;
-            //player.OnPlayerRespawnFinished += SpawnEnemy;
+            player.OnPlayerRespawnFinished += ResumeSpawning;
         }
 
         private void Start()
         {
-            SpawnEnemy();
+            StartCoroutine(SpawnEnemyAfterDelay(7));
         }
 
         private void SpawnEnemy()
@@ -32,16 +35,35 @@ namespace Enemy
             var newEnemy = Instantiate(enemyPrefab, this.transform);
             newEnemy.transform.position = spawnPos;
             newEnemy.GetComponent<Enemy>().target = player.gameObject;
-            
-            Invoke(nameof(SpawnEnemy), Random.Range(minDelay, maxDelay));
+
+            StartCoroutine(SpawnEnemyAfterDelay(Random.Range(minDelay, maxDelay)));
         }
 
         public void DestroyAllEnemies()
         {
+            stopSpawning = true;
+
             foreach (var enemy in GetComponentsInChildren<Enemy>())
             {
                 Destroy(enemy.gameObject);
             }
+        }
+
+        public void ResumeSpawning()
+        {
+            stopSpawning = false;
+        }
+
+        IEnumerator SpawnEnemyAfterDelay(float spawnDelay)
+        {
+            yield return new WaitForSeconds(spawnDelay);
+
+            while (stopSpawning)
+            {
+                yield return null;
+            }
+
+            SpawnEnemy();
         }
     }
 }
