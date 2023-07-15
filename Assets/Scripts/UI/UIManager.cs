@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -33,5 +34,10 @@ public class UIManager : MonoBehaviour
     public static void SetDeathScreenVisibility(bool isVisible)
     {
         instance.deathScreen.SetActive(isVisible);
+    }
+
+    public void Restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

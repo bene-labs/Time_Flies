@@ -82,6 +82,7 @@ namespace Player
 
         private void Start()
         {
+            Debug.Log("START");
             _isFirstRound = true;
             Respawn();
         }
